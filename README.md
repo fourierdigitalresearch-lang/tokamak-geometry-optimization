@@ -8,7 +8,7 @@ Preprint title:
 
 Author: **Jean Lauro Muller**
 Affiliation: **Fourier Digital Research**
-Contact: **[Fourier Digital Research](mailto:fourierdigitalresearch@gmail.com)**
+Contact: **[fourierdigitalresearch@gmail.com](mailto:fourierdigitalresearch@gmail.com)**
 
 Zenodo DOI:
 
