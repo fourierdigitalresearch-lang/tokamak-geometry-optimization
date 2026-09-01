@@ -1,46 +1,70 @@
-[README (1).md](https://github.com/user-attachments/files/31690730/README.1.md)[Uploading# Tokamak Geometry Optimization - High-βN Study
+**Tokamak Geometry Optimization - High-βN Study**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
+The README must be concise, technically rigorous, reproducible, and professionally formatted for a scientific-computing repository. Do not invent results, methods, references, URLs, or files that are not specified below.
 
-<!-- Replace zenodo.XXXXXXX above and the badge/DOI below once the Zenodo record is minted -->
+## Project information
 
-## Description
+Preprint title:
 
-This repository contains the numerical scripts and data supporting the preprint:
+**“Optimized Plasma Geometry for a High-βN Tokamak: 2.79 GW Fusion Power Under Simultaneous Engineering and Stability Constraints”**
 
-**"Optimized Plasma Geometry for a High-βN Tokamak: 2.79 GW Fusion Power Under Simultaneous Engineering and Stability Constraints"**
+Author: **Jean Lauro Muller**
+Affiliation: **Fourier Digital Research**
+Contact: **[contact@fourierresearch.org](mailto:contact@fourierresearch.org)**
 
-**Author:** Jean Lauro Muller
-**Affiliation:** Fourier Digital Research
-**Contact:** contact@fourierresearch.org
+Zenodo DOI:
 
-## Key Results
+**10.5281/zenodo.22231424**
 
-### Optimal Configuration
-- **Aspect Ratio (A):** 2.0
-- **Elongation (κ):** 1.8
-- **Triangularity (δ):** -0.10 (negative)
-- **Major Radius (R₀):** 6.2 m
-- **Minor Radius (a):** 3.1 m
-- **Toroidal Field (B₀):** 5.3 T
+Include the standard Zenodo DOI badge:
 
-### Performance (working-resolution estimate, 180×220 mesh -- see mesh-convergence caveat below)
-- **Fusion Power (P_fus):** 2.79 GW
-- **Plasma Current (I_p):** 20.22 MA
-- **Safety Factor (q₉₅):** 5.015
-- **Wall Loading (P_wall):** 2.53 MW/m²
-- **Ion Temperature (T₀):** 16 keV
-- **Normalized Beta (β_N):** 2.785
-
-## Repository Structure
-
+```markdown
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22231424.svg)](https://doi.org/10.5281/zenodo.22231424)
 ```
+
+## Key optimized configuration
+
+Present the main parameters clearly, preferably in a compact Markdown table:
+
+* Aspect Ratio: **A = 2.0**
+* Elongation: **κ = 1.8**
+* Triangularity: **δ = -0.10**
+* Major Radius: **R₀ = 6.2 m**
+* Minor Radius: **a = 3.1 m**
+* Toroidal Magnetic Field: **B₀ = 5.3 T**
+
+Explain briefly that the optimum occurs at the boundary/vertex of the imposed engineering and stability constraints:
+
+* **A = 2.0**: lowest scanned aspect ratio satisfying the imposed current constraint at the working resolution.
+* **κ = 1.8**: saturates the imposed vertical-stability ceiling.
+* **δ = -0.10**: negative triangularity gives the highest fusion power within the scanned parameter range.
+
+Do not describe this as a globally proven optimum beyond the scanned parameter space.
+
+## Performance results
+
+Present the following values explicitly as **working-resolution estimates from the 180×220 mesh**:
+
+* Fusion Power: **P_fus = 2.79 GW**
+* Plasma Current: **I_p = 20.22 MA**
+* Safety Factor: **q₉₅ = 5.015**
+* Wall Loading: **P_wall = 2.53 MW/m²**
+* Central Ion Temperature: **T₀ = 16 keV**
+* Normalized Beta: **β_N = 2.785**
+
+Make clear that these are numerical estimates at the stated working resolution and should not be interpreted as asymptotically mesh-converged values.
+
+## Repository structure
+
+Use exactly this repository structure:
+
+```text
 tokamak-geometry-optimization/
-├── scan_extended_grid.py          # Full parameter scan (80 geometries)
-├── temperature_scan_final.py      # Temperature scan (7 simulations)
-├── mesh_convergence.py            # Mesh convergence study (4 resolutions)
-├── README.md                      # This file
-├── LICENSE                        # MIT License
+├── scan_extended_grid.py
+├── temperature_scan_final.py
+├── mesh_convergence.py
+├── README.md
+├── LICENSE
 └── data/
     ├── scan_with_restrictions.csv
     ├── ranking_valid.csv
@@ -49,91 +73,164 @@ tokamak-geometry-optimization/
     └── mesh_convergence.csv
 ```
 
-## Requirements
+Briefly describe each script:
 
-- **Python:** 3.8 or higher
-- **NumPy:** `pip install numpy`
-- **SciPy:** `pip install scipy`
-- **Matplotlib:** `pip install matplotlib` (optional, for plotting)
+### `scan_extended_grid.py`
 
-## Usage
+Performs the extended geometry parameter scan over:
 
-### 1. Extended Grid Scan
+* **A ∈ [1.8, 3.4]**
+* **κ ∈ [1.5, 2.4]**
+* **δ ∈ [-0.10, 0.35]**
 
-Performs a comprehensive scan over aspect ratio (A ∈ [1.8, 3.4]), elongation (κ ∈ [1.5, 2.4]), and triangularity (δ ∈ [-0.1, 0.35]):
+The scan contains **80 geometries**.
+
+Outputs:
+
+* `scan_with_restrictions.csv`: complete scan and constraint information.
+* `ranking_valid.csv`: valid configurations satisfying all imposed constraints.
+* `pareto_valid.csv`: Pareto-valid configurations.
+
+### `temperature_scan_final.py`
+
+Scans the central ion temperature **T₀** for the selected geometry.
+
+Output:
+
+* `temperature_scan_final.csv`
+
+### `mesh_convergence.py`
+
+Evaluates the numerical behavior of the solution across multiple mesh resolutions.
+
+The documented resolutions range from **60×80 to 180×220**, with an additional **240×300** run discussed separately in the convergence caveat.
+
+Output:
+
+* `mesh_convergence.csv`
+
+## Installation and requirements
+
+State:
+
+* Python **3.8 or newer**
+* NumPy
+* SciPy
+* Matplotlib, optional for plotting
+
+Provide:
+
+```bash
+pip install numpy scipy matplotlib
+```
+
+Then provide concise commands:
 
 ```bash
 python scan_extended_grid.py
-```
-
-**Outputs:**
-- `scan_with_restrictions.csv` - All 80 geometries with constraints
-- `ranking_valid.csv` - 6 valid geometries satisfying all constraints
-
-### 2. Temperature Scan
-
-Scans central ion temperature (T₀) for the optimal geometry:
-
-```bash
 python temperature_scan_final.py
-```
-
-**Outputs:**
-- `temperature_scan_final.csv` - Fusion power vs. temperature data
-
-### 3. Mesh Convergence Study
-
-Validates numerical convergence across multiple mesh resolutions:
-
-```bash
 python mesh_convergence.py
 ```
 
-**Outputs:**
-- `mesh_convergence.csv` - Convergence data for 4 mesh resolutions (60×80 to 180×220)
+## Physical and engineering constraints
 
-## Main Findings
+Clearly document the three principal constraints:
 
-### Constraints Applied
-1. **Vertical Stability:** κ ≤ 1.8
-2. **Engineering Current Limit:** I_p ≤ 20 MA (Nb₃Sn TF coils)
-3. **MHD Stability:** q₉₅ ≥ 3.0
+1. **Vertical stability:** κ ≤ 1.8
+2. **Engineering current limit:** I_p ≤ 20 MA
+3. **MHD stability:** q₉₅ ≥ 3.0
 
-### Optimal Geometry
-The optimization reveals that the optimal configuration lies at the **vertex of the constraint space**:
-- **A = 2.0** (smallest aspect ratio respecting I_p ≤ 20 MA at this mesh resolution)
-- **κ = 1.8** (saturates vertical stability ceiling)
-- **δ = -0.10** (negative triangularity maximizes fusion power within the scanned range)
+Explain that the optimization is performed within the scanned geometry space subject to these constraints.
 
-### Mesh Convergence -- read before citing P_fus or I_p
-- The 180×220 mesh is used as the working baseline, but convergence is **not** clean:
-  relative changes in P_fus between successive meshes are +9.3%, +14.0%, +4.1% -- not a
-  monotonically decreasing sequence.
-- An additional 240×300 run was attempted: the solver converged well within tolerance,
-  but boundary-contour quantities (q₉₅, l_i) became numerically unreliable (q₉₅ jumped
-  +31%, l_i collapsed -64%), most likely due to the staircase boundary representation of
-  the mask-based rectangular grid. That run is not used to revise the reported baseline.
-- Treat P_fus = 2.79 GW and I_p = 20.22 MA as working-resolution estimates, not converged
-  asymptotic values. See the preprint, Section 3.2/4.3, for full discussion.
+Avoid implying that these constraints represent a complete reactor engineering design assessment.
 
-## Numerical Method
+## Numerical method
 
-### Grad-Shafranov Solver
-- **Discretization:** Second-order centered finite differences
-- **Solver:** SciPy sparse linear solver
-- **Acceleration:** Successive under-relaxation (ω = 0.6)
-- **Convergence tolerance:** 10⁻⁷
-- **Boundary representation:** Mask-based rectangular grid (Miller parametrization)
+Include a concise technical description:
 
-### Physics Models
-- **D-T Reactivity:** Bosch-Hale parametrization
-- **Pressure profile:** p(ψ_N) = p₀(1 - ψ_N)^0.5
-- **Temperature profile:** T(ψ_N) = T₀(1 - ψ_N)^0.5
-- **Vacuum toroidal field approximation:** F(ψ) = R₀B₀ = const
+### Grad-Shafranov solver
+
+* Second-order centered finite differences
+* SciPy sparse linear solver
+* Successive under-relaxation with **ω = 0.6**
+* Convergence tolerance **10⁻⁷**
+* Mask-based rectangular computational grid
+* Miller parametrization for plasma boundary geometry
+
+### Physics models
+
+Include:
+
+* D-T fusion reactivity using the **Bosch-Hale parametrization**
+* Pressure profile:
+
+```text
+p(ψ_N) = p₀(1 − ψ_N)^0.5
+```
+
+* Temperature profile:
+
+```text
+T(ψ_N) = T₀(1 − ψ_N)^0.5
+```
+
+* Vacuum toroidal-field approximation:
+
+```text
+F(ψ) = R₀B₀ = constant
+```
+
+Keep the description factual and do not add physical models that are not specified.
+
+## IMPORTANT: Numerical convergence caveat
+
+Create a prominent section titled:
+
+**Numerical Convergence Caveat**
+
+State clearly:
+
+The **180×220 mesh is the working baseline**, but convergence is not clean enough to claim an asymptotically converged solution.
+
+The relative changes in fusion power between successive mesh resolutions are:
+
+* **+9.3%**
+* **+14.0%**
+* **+4.1%**
+
+These changes do not form a monotonically decreasing sequence.
+
+An additional **240×300** calculation was attempted. The solver itself converged within the prescribed tolerance, but boundary-contour quantities became numerically unreliable. In particular:
+
+* **q₉₅ increased by approximately 31%**
+* **l_i decreased by approximately 64%**
+
+The likely cause is the staircase representation of the plasma boundary associated with the mask-based rectangular grid.
+
+Therefore:
+
+* The **240×300 run is not used to revise the reported baseline results**.
+* **P_fus = 2.79 GW** and **I_p = 20.22 MA** must be described as **working-resolution estimates**.
+* They should **not** be presented as fully mesh-converged asymptotic values.
+* Readers should consult the associated preprint, particularly **Sections 3.2 and 4.3**, for the complete discussion.
+
+This caveat is important and must not be hidden or minimized.
+
+## Interpretation of the optimization
+
+Include a short section explaining that the scan identifies a high-performance configuration at the intersection of the imposed constraints.
+
+Use careful scientific language:
+
+* The result is an optimum **within the explored parameter space and model assumptions**.
+* It is not a proof of a globally optimal tokamak configuration.
+* The numerical values depend on the adopted profiles, physics models, boundary representation, constraints, and mesh resolution.
+
+Do not add claims about commercial viability, net electric power, economic competitiveness, or reactor feasibility unless explicitly supported by the supplied information.
 
 ## Citation
 
-If you use this code or data in your research, please cite:
+Include the following BibTeX entry exactly:
 
 ```bibtex
 @misc{muller2026tokamak,
@@ -141,25 +238,64 @@ If you use this code or data in your research, please cite:
   title = {Optimized Plasma Geometry for a High-$\beta_N$ Tokamak: 2.79 GW Fusion Power Under Simultaneous Engineering and Stability Constraints},
   year = {2026},
   publisher = {Zenodo},
-  doi = {10.5281/zenodo.XXXXXXX},
-  url = {https://doi.org/10.5281/zenodo.XXXXXXX}
+  doi = {10.5281/zenodo.22231424},
+  url = {https://doi.org/10.5281/zenodo.22231424}
 }
 ```
 
+Also include a short sentence asking users who employ the code or data in research to cite the work.
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+State:
+
+**MIT License**
+
+and link to:
+
+```markdown
+[LICENSE](LICENSE)
+```
 
 ## Acknowledgments
 
-- **Computational Resources:** Fourier Digital Research
+Include:
+
+**Computational Resources: Fourier Digital Research**
 
 ## Links
 
-- **Preprint:** Zenodo record *(update link when available)*
-- **GitHub Repository:** *(confirm exact organization/URL before publishing)*
+Include a concise Links section containing:
 
----
+* Zenodo DOI
+* Preprint
+* GitHub repository
 
-**Last Updated:** September 2026
- README (1).md…]()
+Do not invent a preprint URL or GitHub URL. If the exact URL is not supplied, use a neutral placeholder such as:
+
+```text
+Preprint: Zenodo record
+GitHub Repository: this repository
+```
+
+## Style requirements
+
+The final README must:
+
+* Be written entirely in **English**.
+* Use professional scientific English.
+* Be concise rather than verbose.
+* Use Markdown headings and tables effectively.
+* Use code blocks for commands, formulas, and BibTeX.
+* Avoid excessive emojis.
+* Avoid marketing language.
+* Avoid unsupported claims.
+* Clearly distinguish **numerical results**, **model assumptions**, and **engineering constraints**.
+* Preserve the convergence caveat prominently.
+* Be suitable for direct publication as `README.md`.
+
+At the end include:
+
+**Last Updated: September 2026**
+
+Return **only the complete Markdown content of `README.md`**, beginning with the repository title.
