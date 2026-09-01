@@ -1,7 +1,5 @@
 **Tokamak Geometry Optimization - High-βN Study**
 
-The README must be concise, technically rigorous, reproducible, and professionally formatted for a scientific-computing repository. Do not invent results, methods, references, URLs, or files that are not specified below.
-
 ## Project information
 
 Preprint title:
@@ -10,7 +8,7 @@ Preprint title:
 
 Author: **Jean Lauro Muller**
 Affiliation: **Fourier Digital Research**
-Contact: **[contact@fourierresearch.org](mailto:contact@fourierresearch.org)**
+Contact: **[fourierdigitalresearch](mailto:fourierdigitalresearch@gmail.com)**
 
 Zenodo DOI:
 
